@@ -1,9 +1,9 @@
-package com.atanu.spring.cart;
+package com.atanu.spring.order;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CartServiceApplicationTests {
+class OrderServiceApplicationTests {
 
 	//@Test
 	void contextLoads() {
