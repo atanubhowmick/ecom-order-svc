@@ -26,19 +26,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "CART_DETAILS")
+@Table(name = "ORDER_DETAILS")
 public class OrderEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 2170822864125708955L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CART_ID")
-	private Long cartId;
+	@Column(name = "ORDER_ID")
+	private Long orderId;
 
 	@Column(name = "USER_ID")
 	private Long userId;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cartEntity")
-	private List<OrderProductMappingEntity> cartProductMappings;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "orderEntity")
+	private List<OrderProductMappingEntity> orderProductMappings;
 }

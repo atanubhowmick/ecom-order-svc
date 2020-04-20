@@ -15,20 +15,20 @@ import com.atanu.spring.order.entity.OrderEntity;
 public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSpecificationExecutor<OrderEntity> {
 
 	/**
-	 * Find Cart by Id
+	 * Find Order Details by Id
 	 * 
-	 * @param cartId
+	 * @param orderId
 	 * @param activeStatus
 	 * @return
 	 */
-	OrderEntity findByCartIdAndActiveStatus(Long cartId, Character activeStatus);
+	OrderEntity findByOrderIdAndActiveStatus(Long orderId, Character activeStatus);
 	
 	/**
 	 * Find by User Id
 	 * 
 	 * @param userId
 	 * @param activeStatus
-	 * @return CartEntity
+	 * @return OrderEntity
 	 */
 	OrderEntity findByUserIdAndActiveStatus(Long userId, Character activeStatus);
 }

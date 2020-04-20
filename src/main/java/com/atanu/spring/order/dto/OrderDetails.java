@@ -16,11 +16,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CartDetails extends AbstractBaseDTO {
+public class OrderDetails extends AbstractBaseDTO {
 
 	private static final long serialVersionUID = -8115173794209557247L;
 
-	private Long cartId;
+	private Long orderId;
 	private List<ProductDetails> products;
 	private Double totalPrice;
 }

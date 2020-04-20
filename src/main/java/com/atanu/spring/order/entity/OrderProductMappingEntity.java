@@ -25,15 +25,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "CART_PRODUCT_MAPPING")
+@Table(name = "ORDER_PRODUCT_MAPPING")
 public class OrderProductMappingEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 724082340071008053L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CART_PRODUCT_ID")
-	private Long cartProductId;
+	@Column(name = "ORDER_PRODUCT_ID")
+	private Long orderProductId;
 
 	@Column(name = "PRODUCT_ID")
 	private Long productId;
@@ -42,7 +42,7 @@ public class OrderProductMappingEntity extends BaseEntity {
 	private Long productCount;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "CART_ID")
-	private OrderEntity cartEntity;
+	@JoinColumn(name = "ORDER_ID")
+	private OrderEntity orderEntity;
 
 }

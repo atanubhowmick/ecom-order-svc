@@ -32,6 +32,9 @@ public class GenericResponse<T> extends AbstractBaseDTO {
 
 	@ApiModelProperty(value = "Error Response for any error scenario")
 	private ErrorResponse error;
+	
+	@ApiModelProperty(value = "Warning Response for any warning situation")
+	private WarningResponse warning;
 
 	public GenericResponse(T payload) {
 		this.isSuccess = true;
