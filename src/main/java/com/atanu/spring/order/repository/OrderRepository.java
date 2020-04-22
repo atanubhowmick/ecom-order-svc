@@ -3,6 +3,8 @@
  */
 package com.atanu.spring.order.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -22,7 +24,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
 	 * @return
 	 */
 	OrderEntity findByOrderIdAndActiveStatus(Long orderId, Character activeStatus);
-	
+
 	/**
 	 * Find by User Id
 	 * 
@@ -30,5 +32,5 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
 	 * @param activeStatus
 	 * @return OrderEntity
 	 */
-	OrderEntity findByUserIdAndActiveStatus(Long userId, Character activeStatus);
+	List<OrderEntity> findByUserIdAndActiveStatus(Long userId, Character activeStatus);
 }

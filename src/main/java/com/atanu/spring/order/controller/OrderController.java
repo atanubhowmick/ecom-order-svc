@@ -3,6 +3,8 @@
  */
 package com.atanu.spring.order.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,9 +42,9 @@ public class OrderController {
 	
 	@ApiOperation(value = "Get Cart by User Id", response = GenericResponse.class)
 	@GetMapping(value = "/get-by-user-id/{user-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<GenericResponse<OrderDetails>> getCartDetailsByUserId(
+	public ResponseEntity<GenericResponse<List<OrderDetails>>> getCartDetailsByUserId(
 			@ApiParam(value = "Provide User Id to get Cart Details", required = true) @PathVariable("user-id") Long userId) {
-		GenericResponse<OrderDetails> response = new GenericResponse<>(orderService.getByUserId(userId));
+		GenericResponse<List<OrderDetails>> response = new GenericResponse<>(orderService.getByUserId(userId));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

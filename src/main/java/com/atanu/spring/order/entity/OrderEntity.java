@@ -3,6 +3,7 @@
  */
 package com.atanu.spring.order.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +41,10 @@ public class OrderEntity extends BaseEntity {
 
 	@Column(name = "USER_ID")
 	private Long userId;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ORDER_DATE")
+	private Date orderDate;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "orderEntity")
 	private List<OrderProductMappingEntity> orderProductMappings;

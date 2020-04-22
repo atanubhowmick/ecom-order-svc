@@ -3,6 +3,8 @@
  */
 package com.atanu.spring.order.service;
 
+import java.util.List;
+
 /**
  * Interface to provide search related operations
  * 
@@ -18,13 +20,13 @@ public interface BaseService<T, K> {
 	 * @return T
 	 */
 	T get(K id);
-	
+
 	/**
 	 * Find by User Id
 	 * 
 	 * @param userId
 	 * @return T
 	 */
-	T getByUserId(Long userId);
+	List<T> getByUserId(Long userId);
 
 }
