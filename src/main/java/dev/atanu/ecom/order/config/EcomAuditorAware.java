@@ -10,12 +10,12 @@ import org.springframework.data.domain.AuditorAware;
 import dev.atanu.ecom.order.constant.OrderConstant;
 
 /**
- * Custom AuditAware for Product Service
+ * Custom AuditAware for Order Service
  * 
  * @author Atanu Bhowmick
  *
  */
-public class OrderAuditorAware implements AuditorAware<Long>{
+public class EcomAuditorAware implements AuditorAware<Long>{
 
 	@Override
 	public Optional<Long> getCurrentAuditor() {

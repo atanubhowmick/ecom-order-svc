@@ -4,6 +4,8 @@
 package dev.atanu.ecom.order.constant;
 
 /**
+ * This Enum contains all the error code and error message
+ * 
  * @author Atanu Bhowmick
  *
  */
