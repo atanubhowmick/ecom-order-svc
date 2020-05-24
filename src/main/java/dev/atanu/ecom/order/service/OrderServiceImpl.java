@@ -38,7 +38,7 @@ import dev.atanu.ecom.order.util.OrderUtil;
 public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 
 	@Autowired
-	private OrderRepository cartRepository;
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private ProductSvcClient productSvcClient;
@@ -47,14 +47,14 @@ public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 
 	@Override
 	public OrderDetails get(Long id) {
-		OrderEntity orderEntity = cartRepository.findByOrderIdAndActiveStatus(id, StatusEnum.ACTIVE.getValue());
+		OrderEntity orderEntity = orderRepository.findByOrderIdAndActiveStatus(id, StatusEnum.ACTIVE.getValue());
 		return this.getOrderDetails(orderEntity);
 	}
 
 	@Override
 	public List<OrderDetails> getByUserId(Long userId) {
 		List<OrderDetails> orderDetails = new ArrayList<>();
-		List<OrderEntity> orderEntities = cartRepository.findByUserIdAndActiveStatus(userId,
+		List<OrderEntity> orderEntities = orderRepository.findByUserIdAndActiveStatus(userId,
 				StatusEnum.ACTIVE.getValue());
 		if (!CollectionUtils.isEmpty(orderEntities)) {
 			orderDetails.addAll(

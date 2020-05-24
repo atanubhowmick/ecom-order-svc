@@ -21,7 +21,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
 	 * 
 	 * @param orderId
 	 * @param activeStatus
-	 * @return
+	 * @return OrderEntity
 	 */
 	OrderEntity findByOrderIdAndActiveStatus(Long orderId, Character activeStatus);
 
