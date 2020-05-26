@@ -110,8 +110,9 @@ public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 		OrderEntity entity = new OrderEntity();
 		entity.setOrderDate(new Date());
 		entity.setUserId(userId);
+		Map<Long, Long> productMap = orderDetails.getProductIdMap();
 		List<OrderProductMappingEntity> orderProductMappings = new ArrayList<>();
-		List<Long> productIds = orderDetails.getProductIdMap().entrySet().stream().map(e -> e.getKey())
+		List<Long> productIds = productMap.entrySet().stream().map(e -> e.getKey())
 				.collect(Collectors.toList());
 		QueryPageable queryPageable = new QueryPageable(0, Integer.MAX_VALUE);
 		QueryFilter queryFilter = new QueryFilter(QueryFilterEnum.ID, productIds, QueryOperatorEnum.IN);
@@ -120,13 +121,13 @@ public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 		products.stream().forEach(pdt -> {
 			OrderProductMappingEntity mappingEntity = new OrderProductMappingEntity();
 			mappingEntity.setProductId(pdt.getProductId());
-			mappingEntity.setProductCount(orderDetails.getProductIdMap().get(pdt.getProductId()));
+			mappingEntity.setProductCount(productMap.get(pdt.getProductId()));
 			mappingEntity.setActiveStatus(StatusEnum.ACTIVE.getValue());
 			mappingEntity.setOrderEntity(entity);
 			orderProductMappings.add(mappingEntity);
 		});
 		Double totalPrice = products.stream()
-				.collect(Collectors.summingDouble(pdt -> pdt.getProductPrice() * pdt.getProductCount()));
+				.collect(Collectors.summingDouble(pdt -> pdt.getProductPrice() * productMap.get(pdt.getProductId())));
 		entity.setTotalPrice(totalPrice);
 		entity.setOrderProductMappings(orderProductMappings);
 		entity.setActiveStatus(StatusEnum.ACTIVE.getValue());
