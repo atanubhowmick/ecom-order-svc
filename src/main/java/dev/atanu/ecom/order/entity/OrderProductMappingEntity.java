@@ -3,7 +3,6 @@
  */
 package dev.atanu.ecom.order.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +40,7 @@ public class OrderProductMappingEntity extends BaseEntity {
 	@Column(name = "PRODUCT_COUNT", nullable = false)
 	private Long productCount;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "ORDER_ID")
 	private OrderEntity orderEntity;
 

@@ -26,6 +26,6 @@ public class WarningResponse extends AbstractBaseDTO {
 	@ApiModelProperty(value = "Warn Code", example = "WE100")
 	private String warnCode;
 
-	@ApiModelProperty(value = "Warn Message", example = "Delevery might be delayed due to huge traffic")
+	@ApiModelProperty(value = "Warn Message", example = "Delevery might be delayed due to high traffic")
 	private String warnMessage;
 }

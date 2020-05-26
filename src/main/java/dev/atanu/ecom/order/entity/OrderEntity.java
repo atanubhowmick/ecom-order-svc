@@ -45,6 +45,9 @@ public class OrderEntity extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ORDER_DATE")
 	private Date orderDate;
+	
+	@Column(name = "TOTAL_PRICE")
+	private Double totalPrice;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "orderEntity")
 	private List<OrderProductMappingEntity> orderProductMappings;

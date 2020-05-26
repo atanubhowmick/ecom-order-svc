@@ -29,4 +29,13 @@ public interface BaseService<T, K> {
 	 */
 	List<T> getByUserId(Long userId);
 
+	/**
+	 * Create
+	 * 
+	 * @param userId
+	 * @param t
+	 * @return T
+	 */
+	T create(Long userId, T t);
+
 }

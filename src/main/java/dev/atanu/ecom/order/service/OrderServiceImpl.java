@@ -4,6 +4,7 @@
 package dev.atanu.ecom.order.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 
 import dev.atanu.ecom.order.annotation.LogMethodCall;
 import dev.atanu.ecom.order.client.ProductSvcClient;
-import dev.atanu.ecom.order.constant.OrderConstant;
 import dev.atanu.ecom.order.constant.QueryFilterEnum;
 import dev.atanu.ecom.order.constant.QueryOperatorEnum;
 import dev.atanu.ecom.order.constant.StatusEnum;
@@ -27,7 +27,6 @@ import dev.atanu.ecom.order.dto.QueryPageable;
 import dev.atanu.ecom.order.entity.OrderEntity;
 import dev.atanu.ecom.order.entity.OrderProductMappingEntity;
 import dev.atanu.ecom.order.repository.OrderRepository;
-import dev.atanu.ecom.order.util.OrderUtil;
 
 /**
  * @author Atanu Bhowmick
@@ -63,6 +62,12 @@ public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 		return orderDetails;
 	}
 
+	@Override
+	public OrderDetails create(Long userId, OrderDetails orderDetails) {
+		OrderEntity orderEntity = this.orderRepository.save(this.getOrderEntity(userId, orderDetails));
+		return this.getOrderDetails(orderEntity);
+	}
+
 	/**
 	 * 
 	 * @param orderEntity
@@ -74,6 +79,7 @@ public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 			orderDetails = new OrderDetails();
 			orderDetails.setOrderId(orderEntity.getOrderId());
 			orderDetails.setOrderDate(orderEntity.getOrderDate());
+			orderDetails.setTotalPrice(orderEntity.getTotalPrice());
 			if (!CollectionUtils.isEmpty(orderEntity.getOrderProductMappings())) {
 				List<Long> productIds = orderEntity.getOrderProductMappings().stream()
 						.map(OrderProductMappingEntity::getProductId).collect(Collectors.toList());
@@ -89,13 +95,41 @@ public class OrderServiceImpl implements BaseService<OrderDetails, Long> {
 						product.setProductCount(map.get(product.getProductId()).get(0).getProductCount());
 					}
 				});
-				Double totalPrice = products.stream()
-						.collect(Collectors.summingDouble(pdt -> pdt.getProductPrice() * pdt.getProductCount()));
 				orderDetails.setProducts(products);
-				orderDetails.setTotalPrice(
-						Double.valueOf(OrderUtil.formatDecimal(OrderConstant.TWO_DECIMAL_PLACE, totalPrice)));
 			}
 		}
 		return orderDetails;
+	}
+
+	/**
+	 * 
+	 * @param orderDetails
+	 * @return {@link OrderEntity}
+	 */
+	private OrderEntity getOrderEntity(Long userId, OrderDetails orderDetails) {
+		OrderEntity entity = new OrderEntity();
+		entity.setOrderDate(new Date());
+		entity.setUserId(userId);
+		List<OrderProductMappingEntity> orderProductMappings = new ArrayList<>();
+		List<Long> productIds = orderDetails.getProductIdMap().entrySet().stream().map(e -> e.getKey())
+				.collect(Collectors.toList());
+		QueryPageable queryPageable = new QueryPageable(0, Integer.MAX_VALUE);
+		QueryFilter queryFilter = new QueryFilter(QueryFilterEnum.ID, productIds, QueryOperatorEnum.IN);
+		queryPageable.getFilters().add(queryFilter);
+		List<ProductDetails> products = productSvcClient.getProducts(queryPageable);
+		products.stream().forEach(pdt -> {
+			OrderProductMappingEntity mappingEntity = new OrderProductMappingEntity();
+			mappingEntity.setProductId(pdt.getProductId());
+			mappingEntity.setProductCount(orderDetails.getProductIdMap().get(pdt.getProductId()));
+			mappingEntity.setActiveStatus(StatusEnum.ACTIVE.getValue());
+			mappingEntity.setOrderEntity(entity);
+			orderProductMappings.add(mappingEntity);
+		});
+		Double totalPrice = products.stream()
+				.collect(Collectors.summingDouble(pdt -> pdt.getProductPrice() * pdt.getProductCount()));
+		entity.setTotalPrice(totalPrice);
+		entity.setOrderProductMappings(orderProductMappings);
+		entity.setActiveStatus(StatusEnum.ACTIVE.getValue());
+		return entity;
 	}
 }
