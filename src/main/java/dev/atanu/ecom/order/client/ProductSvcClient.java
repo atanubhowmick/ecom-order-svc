@@ -38,7 +38,7 @@ public class ProductSvcClient implements BaseClient {
 	 * @param productId
 	 * @return {@link ProductDetails}
 	 */
-	@HystrixCommand(fallbackMethod = "getProductById_fallback", ignoreExceptions = { OrderException.class })
+	@HystrixCommand(fallbackMethod = "getProductById_fallback")
 	public ProductDetails getProductById(Long productId) {
 		ResponseEntity<GenericResponse<ProductDetails>> response = this.productSvcFeign.getProductById(productId);
 		return this.validateResponse(response);
@@ -50,7 +50,7 @@ public class ProductSvcClient implements BaseClient {
 	 * @param queryPageable
 	 * @return List of {@link ProductDetails}
 	 */
-	@HystrixCommand(fallbackMethod = "getProducts_fallback", ignoreExceptions = { OrderException.class })
+	@HystrixCommand(fallbackMethod = "getProducts_fallback")
 	public List<ProductDetails> getProducts(QueryPageable queryPageable) {
 		ResponseEntity<GenericResponse<List<ProductDetails>>> response = this.productSvcFeign
 				.productsBySpecification(true, queryPageable);
